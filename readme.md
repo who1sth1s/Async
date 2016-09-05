@@ -4,4 +4,5 @@
 * Unix와 Windows를 모두 "제대로" 지원할 수 있도록.
 
 ##All of exampleCode in this project reference below blog
-[Reference blog]: https://b.ssut.me/58
+Reference Blog Link: [PythonAsyncInfo_Korean][blog link]
+[blog link]: https://b.ssut.me/58
