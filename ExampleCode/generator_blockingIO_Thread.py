@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import timeit
 # futures explain : http://i5on9i.blogspot.kr/2016/07/python-future.html
 from concurrent.futures import ThreadPoolExecutor
@@ -19,3 +20,7 @@ with ThreadPoolExecutor(max_workers=5) as executor:
 
 duration = timeit.default_timer() - start
 print(duration)  # return : 0.48097191299893893 ~ 0.5646912950032856
+
+
+# 스레드 갯수는 OS에 의해 한정되어 있습니다.
+# GIL
