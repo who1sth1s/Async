@@ -1,9 +1,12 @@
 import asyncio
 import traceback
 import sys
-from Project.PythonChat import chatServer
+import chatServer
 
 class ChattingStart():
+    def __init__(self):
+        pass
+
     @asyncio.coroutine
     def chattingStart(self):
         self.chatServer = yield from chatServer.ChatServer()
@@ -12,4 +15,5 @@ class ChattingStart():
         return self.HOST
 
 print("afsadfsd")
-print(ChattingStart.chattingStart())
+tmp_obj = ChattingStart()
+print(tmp_obj.chattingStart())

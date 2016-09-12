@@ -8,8 +8,11 @@ RECV_BUFFER = 4096
 PORT = 33137
 
 class ChatServer:
+    def __init__(self):
+        pass
+
     @asyncio.coroutine
-    def chatServer(self):
+    def chatServer(self, HOST):
         try:
             serverSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             serverSocket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
