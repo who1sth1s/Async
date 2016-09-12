@@ -16,5 +16,6 @@ class ChatServer:
             serverSocket.bind((HOST, PORT))
             serverSocket.listen(10)
             SOCKET_LIST.append(serverSocket)
+            return HOST
         except:
             print(traceback.format_exc().strip().split('\n'))
