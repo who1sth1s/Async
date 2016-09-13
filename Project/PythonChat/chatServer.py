@@ -18,6 +18,6 @@ class ChatServer():
             serverSocket.bind((self.HOST, self.PORT))
             serverSocket.listen(10)
             self.SOCKET_LIST.append(serverSocket)
-            return self.PORT
+            print('Chat server started on port ' + str(self.PORT))
         except:
             print(traceback.format_exc().strip().split('\n'))

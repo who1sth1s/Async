@@ -15,7 +15,4 @@ class ChattingStart():
     def chattingStart(self):
         self.chatServer = yield from chatServer.ChatServer()
         self.HOST = yield from self.chatServer.chatServer()
-        return self.PORT
 
-tmp_obj = ChattingStart().chattingStart()
-print(tmp_obj)
