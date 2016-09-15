@@ -13,6 +13,8 @@ class ChattingStart():
 
     @asyncio.coroutine
     def chattingStart(self):
-        self.chatServer = yield from chatServer.ChatServer()
-        self.HOST = yield from self.chatServer.chatServer()
+        #self.chatServer = yield from chatServer.ChatServer()
+        self.HOST = yield from chatServer.ChatServer().chatServerMain()
 
+chattingClass = ChattingStart()
+asyncio.get_event_loop().run_until_complete(chattingClass.chattingStart())
