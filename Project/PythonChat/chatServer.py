@@ -1,6 +1,7 @@
 import asyncio
 import traceback
 import socket
+import select
 
 class ChatServer():
     def __init__(self):
@@ -16,6 +17,10 @@ class ChatServer():
             serverSocket = yield from self.chatServerSetting()
             self.SOCKET_LIST.append(serverSocket)
             print('Chat server started on port ' + str(self.PORT))
+            while 1:
+                ready_to_ready, \
+                ready_to_write, \
+                in_error = select.select(self.SOCKET_LIST, [], [], 0)
         except:
             print(traceback.format_exc().strip().split('\n'))
 
