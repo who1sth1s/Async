@@ -29,6 +29,21 @@ class ChatServer():
                         print('Client ({addr}, {addr})').format(addr=addr)
                         yield from self.broadcast(serverSocket, sockfd,
                                                   '[{addr}:{addr}] entered our chatting room\n'.format(addr=addr))
+                    else:
+                        try:
+                            data = sock.recv(self.RECV_BUFFER)
+                            if data:
+                                yield from self.broadcast(serverSocket, sock, "\r" + '[' + str(sock.getpeername()) + '] ' + data)
+                            else:
+                                if sock in self.SOCKET_LIST:
+                                    self.SOCKET_LIST.remove(sock)
+                                yield from self.broadcast(serverSocket, sock,
+                                                          'Client ({addr}, {addr}) is offline\n'.format(addr=addr))
+                        except:
+                            yield from self.broadcast(serverSocket, sock,
+                                                      'Client ({addr}, {addr}) is offline\n'.format(addr=addr))
+                            continue
+            serverSocket.close()
 
         except:
             print(traceback.format_exc().strip().split('\n'))
