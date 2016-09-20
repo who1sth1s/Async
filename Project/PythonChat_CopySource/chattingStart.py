@@ -16,9 +16,10 @@ class ChattingStart():
         #self.chatServer = yield from chatServer.ChatServer()
         selectType = input('(--- Input your type ---)\n1. Create Server\n2. Join Server\n:')
         if selectType == 'Create':
-            self.HOST = yield from chatServer.ChatServer().chatServerMain()
+            yield from chatServer.ChatServer().chatServerMain()
         elif selectType == 'Join':
-            print('Hello world!!')
+            inputHost = input('(*) Input Host : ')
+            inputPort = input('(*) Input Port : ')
         else:
             print('''\nIf you want to create server, input "Create"\nIf you want to join server, input "Join"''')
 
