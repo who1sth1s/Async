@@ -9,7 +9,7 @@ class ChattingStart():
         self.HOST = ''
         self.SOCKET_LIST = []
         self.RECV_BUFFER = 4096
-        self.PORT = 33137
+        self.PORT = 9009
         pass
 
     @asyncio.coroutine
@@ -21,7 +21,7 @@ class ChattingStart():
         elif selectType == '2':
             inputHost = input('(*) Input Host : ')
             inputPort = input('(*) Input Port : ')
-            chatClient.ChatClient().chatClient(inputHost, inputPort)
+            yield from chatClient.ChatClient().chatClient(inputHost, inputPort)
 
         else:
             print('''\nIf you want to create server, input "Create"\nIf you want to join server, input "Join"''')

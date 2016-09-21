@@ -8,19 +8,20 @@ class ChatServer():
         self.HOST = ''
         self.SOCKET_LIST = []
         self.RECV_BUFFER = 4096
-        self.PORT = 33137
+        self.PORT = 9009
         pass
 
     @asyncio.coroutine
     def chatServerMain(self):
         try:
-            serverSocket = yield from self.chatServerSetting()
+            serverSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            serverSocket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+            serverSocket.bind((self.HOST, self.PORT))
+            serverSocket.listen(10)
             self.SOCKET_LIST.append(serverSocket)
             print('Chat server started on port ' + str(self.PORT))
             while 1:
-                ready_to_read, \
-                ready_to_write, \
-                in_error = select.select(self.SOCKET_LIST, [], [], 0)
+                ready_to_read,ready_to_write,in_error = select.select(self.SOCKET_LIST, [], [], 0)
 
                 for sock in ready_to_read:
                     if sock == serverSocket:
@@ -48,14 +49,6 @@ class ChatServer():
 
         except:
             print(traceback.format_exc().strip().split('\n'))
-
-    @asyncio.coroutine
-    def chatServerSetting(self):
-        serverSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        serverSocket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        serverSocket.bind((self.HOST, self.PORT))
-        serverSocket.listen(10)
-        return serverSocket
 
     @asyncio.coroutine
     def broadcast(self, serverSocket, sock, message):
