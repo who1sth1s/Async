@@ -2,6 +2,7 @@ import asyncio
 import traceback
 import sys
 import chatServer
+import chatClient
 
 class ChattingStart():
     def __init__(self):
@@ -15,11 +16,13 @@ class ChattingStart():
     def chattingStart(self):
         #self.chatServer = yield from chatServer.ChatServer()
         selectType = input('(--- Input your type ---)\n1. Create Server\n2. Join Server\n:')
-        if selectType == 'Create':
+        if selectType == '1':
             yield from chatServer.ChatServer().chatServerMain()
-        elif selectType == 'Join':
+        elif selectType == '2':
             inputHost = input('(*) Input Host : ')
             inputPort = input('(*) Input Port : ')
+            chatClient.ChatClient().chatClient(inputHost, inputPort)
+
         else:
             print('''\nIf you want to create server, input "Create"\nIf you want to join server, input "Join"''')
 

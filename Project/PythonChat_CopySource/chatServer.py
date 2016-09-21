@@ -26,7 +26,8 @@ class ChatServer():
                     if sock == serverSocket:
                         sockfd, addr = serverSocket.accept()
                         self.SOCKET_LIST.append(sockfd)
-                        print('Client ({addr}, {addr})').format(addr=addr)
+                        loginInfo = 'Client ({host}, {port})'.format(host=addr[0], port=addr[1])
+                        print(loginInfo)
                         yield from self.broadcast(serverSocket, sockfd,
                                                   '[{addr}:{addr}] entered our chatting room\n'.format(addr=addr))
                     else:
