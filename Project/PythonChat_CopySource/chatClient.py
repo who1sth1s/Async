@@ -27,6 +27,8 @@ class ChatClient():
             SOCKET_LIST = [sys.stdin, createSocket]
             ready_to_read, ready_to_write, in_error = select.select(SOCKET_LIST, [], [])
             for sock in ready_to_read:
+                print(sock)
+                print(createSocket)
                 if sock == createSocket:
                     data = sock.recv(4096).decode()
                     if not data:
@@ -35,7 +37,6 @@ class ChatClient():
                         sys.exit()
                     else:
                         sys.stdout.write(data)
-                        print(data)
                         sys.stdout.write('[Me] '); sys.stdout.flush()
 
                 else:
