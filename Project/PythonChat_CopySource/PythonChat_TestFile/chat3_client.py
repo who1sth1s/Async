@@ -27,11 +27,11 @@ def chat_client():
         socket_list = [sys.stdin, s]
 
         # Get the list sockets which are readable
-        ready_to_read,ready_to_write,in_error = select.select(socket_list , [], [])
+        ready_to_read,ready_to_write,in_error = select.select(socket_list , [], [], 1)
         for sock in ready_to_read:
             if sock == s:
                 # incoming message from remote server, s
-                data = sock.recv(4096)
+                data = sock.recv(4096).decode()
                 if not data:
                     print ('\nDisconnected from chat server')
                     sys.exit()
@@ -42,7 +42,7 @@ def chat_client():
 
             else :
                 # user entered a message
-                msg = sys.stdin.readline()
+                msg = sys.stdin.readline().encode()
                 s.send(msg)
                 sys.stdout.write('[Me] '); sys.stdout.flush()
 
