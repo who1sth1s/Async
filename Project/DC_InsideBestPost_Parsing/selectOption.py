@@ -1,4 +1,5 @@
 import sys
+import urlList
 
 class SelectOption():
     def __init__(self):
@@ -12,7 +13,9 @@ class SelectOption():
             galleryUrl = input('Input Gallery url : ')
             urlListFile = open('urlList.py', 'a')
         elif inputOption == '2':
-            print('select')
+            galleryName = input('Input Gallery name : ')
+            galleryUrl = urlList.urlList(galleryName)
+            print(galleryUrl)
         else:
             print('No option, option is only 1 or 2')
             sys.exit()
