@@ -11,7 +11,7 @@ class UrlList():
             '최유정': 'http://gall.dcinside.com/board/lists/?id=youjung'
         }
         if not key in url:
-            print('No galary, select other galary')
+            print('No gallery, select other gallery')
             sys.exit()
         else:
             return url[key]

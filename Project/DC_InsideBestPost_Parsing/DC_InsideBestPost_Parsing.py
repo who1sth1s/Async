@@ -8,6 +8,6 @@ from bs4 import BeautifulSoup
 
 sys.path.append('../')
 
-selectGalary = input("Input Galary Name : ")
+selectGalary = input("Input Gallery Name : ")
 url = urlList.UrlList().urlList(selectGalary)
 option = selectOption.SelectOption().selectOption()
