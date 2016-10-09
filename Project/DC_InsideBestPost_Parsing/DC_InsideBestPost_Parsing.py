@@ -8,4 +8,4 @@ from bs4 import BeautifulSoup
 
 sys.path.append('../')
 
-option = selectOption.SelectOption().selectOption()
+getOptionResult = selectOption.SelectOption().selectOption()

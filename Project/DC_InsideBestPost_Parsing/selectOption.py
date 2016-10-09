@@ -10,13 +10,12 @@ class SelectOption():
         print('-*- Option -*-\n1. Add gallery list\n2. Select gallery\n(Input 1 or 2)')
         inputOption = input("SelectOption : ")
         if inputOption == '1':
-            galleryName = input('Input Gallery name : ')
-            galleryUrl = input('Input Gallery url : ')
-            urlListFile = open('urlList.py', 'a')
+            print('Developing...')
+            sys.exit()
         elif inputOption == '2':
             galleryName = input('Input Gallery name : ')
             galleryUrl = urlList.UrlList().urlList(galleryName)
-            print(galleryUrl)
+            return galleryUrl
         else:
             print('No option, option is only 1 or 2')
             sys.exit()
