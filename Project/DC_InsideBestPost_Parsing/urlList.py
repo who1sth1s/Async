@@ -1,4 +1,5 @@
 # -*-coding: utf-8 -*-
+# This source will be move to database
 import sys
 
 class UrlList():
