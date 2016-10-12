@@ -3,14 +3,14 @@ import traceback
 import sys
 import urllib.request
 
-class UrlParsing():
+class UrlParsingClass():
     def __init__(self):
         pass
 
     @asyncio.coroutine
     def getHtml(self, galleryUrl):
         try:
-            print('hello!')
+            return galleryUrl
         except:
             print(traceback.format_exc())
             sys.exit()
