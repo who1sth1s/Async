@@ -1,0 +1,16 @@
+1. Option ( Create(No plan), Search)
+
+2. Search -> urlList.py(Parse gallery url) <- Url list will be database information
+
+
+--------------------loop-------------------------------------
+3. In urlParsing.py get html source (Only best post)
+
+4. Throw html source to mainParser function
+
+5. Throw html source to getNeedInfo function (developing)
+
+6. Parsing information to show in front
+
+7. Return (3) next page
+-------------------------------------------------------------
