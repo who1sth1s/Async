@@ -9,8 +9,10 @@ class UrlParsingClass():
 
     @asyncio.coroutine
     def getHtml(self, galleryUrl):
+        pageNumber = str(1)
         try:
-            return galleryUrl
+            bestPost = galleryUrl + '&page=' + pageNumber + '&exception_mode=recommend'
+            return bestPost
         except:
             print(traceback.format_exc())
             sys.exit()
