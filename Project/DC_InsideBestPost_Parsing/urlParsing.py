@@ -5,6 +5,8 @@ import traceback
 import sys
 import urllib.request
 
+from bs4 import BeautifulSoup
+
 class UrlParsingClass():
     def __init__(self):
         pass
@@ -12,6 +14,8 @@ class UrlParsingClass():
     @asyncio.coroutine
     def mainParser(self, galleryUrl):
         htmlSource = yield from self.getHtml(galleryUrl)
+        parseApi = yield from self.contentParser(htmlSource)
+        return parseApi
 
     @asyncio.coroutine
     def getHtml(self, galleryUrl):
@@ -21,6 +25,15 @@ class UrlParsingClass():
             getHtmlByte = urllib.request.urlopen(bestPost)
             getHtmlString = str(getHtmlByte.read())
             return getHtmlString
+        except:
+            print(traceback.format_exc())
+            sys.exit()
+
+    @asyncio.coroutine
+    def contentParser(self, htmlSource):
+        try:
+            return htmlSource
+
         except:
             print(traceback.format_exc())
             sys.exit()
