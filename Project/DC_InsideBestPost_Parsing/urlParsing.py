@@ -3,7 +3,7 @@
 import asyncio
 import traceback
 import sys
-import urllib.request
+import requests
 
 from bs4 import BeautifulSoup
 
@@ -14,16 +14,16 @@ class UrlParsingClass():
     @asyncio.coroutine
     def mainParser(self, galleryUrl):
         htmlSource = yield from self.getHtml(galleryUrl)
-        parseApi = yield from self.contentParser(htmlSource)
-        return parseApi
+        parseData = yield from self.contentParser(htmlSource)
+        return parseData
 
     @asyncio.coroutine
     def getHtml(self, galleryUrl):
         pageNumber = str(1)
         try:
             bestPost = galleryUrl + '&page=' + pageNumber + '&exception_mode=recommend'
-            getHtmlByte = urllib.request.urlopen(bestPost)
-            getHtmlString = str(getHtmlByte.read())
+            getHtmlByte = requests.get(bestPost)
+            getHtmlString = str(getHtmlByte.text)
             return getHtmlString
         except:
             print(traceback.format_exc())
@@ -32,7 +32,9 @@ class UrlParsingClass():
     @asyncio.coroutine
     def contentParser(self, htmlSource):
         try:
-            return htmlSource
+            soup = BeautifulSoup(htmlSource, 'lxml')
+            appendFile = soup.find_all('ul', {'class', 'appending_file'})
+            return appendFile
 
         except:
             print(traceback.format_exc())
