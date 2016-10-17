@@ -4,6 +4,7 @@ import asyncio
 import traceback
 import sys
 import requests
+import datetime
 
 from bs4 import BeautifulSoup
 
@@ -31,10 +32,12 @@ class UrlParsingClass():
 
     @asyncio.coroutine
     def contentParser(self, htmlSource):
+        postNumberList = list()
         try:
             soup = BeautifulSoup(htmlSource, 'lxml')
-            appendFile = soup.find_all('ul', {'class', 'appending_file'})
-            return appendFile
+            for postNumber in soup.find_all('td', class_='t_notice'):
+                postNumberList.append(postNumber.text)
+
 
         except:
             print(traceback.format_exc())
