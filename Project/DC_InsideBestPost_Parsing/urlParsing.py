@@ -16,8 +16,8 @@ class UrlParsingClass():
     # 전체적인 함수 실행해주는 함수
     @asyncio.coroutine
     def mainParser(self, galleryUrl):
-        htmlSource = yield from self.getHtml(galleryUrl)
-        parseData = yield from self.contentParser(htmlSource)
+        (htmlSource, listUrl) = yield from self.getHtml(galleryUrl)
+        parseData = yield from self.contentParser(htmlSource, listUrl)
         return parseData
 
     # html 소스 가져오는 함수
@@ -28,17 +28,21 @@ class UrlParsingClass():
             bestPost = galleryUrl + '&page=' + pageNumber + '&exception_mode=recommend'
             getHtmlByte = requests.get(bestPost)
             getHtmlString = str(getHtmlByte.text)
-            return getHtmlString
+            return (getHtmlString, bestPost)
         except:
             print(traceback.format_exc())
             sys.exit()
 
     # 본문 내용 파싱하는 함수
     @asyncio.coroutine
-    def contentParser(self, htmlSource):
+    def contentParser(self, htmlSource, listUrl):
         try:
             soup = BeautifulSoup(htmlSource, 'lxml')
             postNumberList = yield from self.getPostNumber(soup)
+            postList = list() # 게시글 주소 리스트
+            for postNumber in postNumberList:
+                postList.append(listUrl + '&no=' + postNumber)
+            print(postList)
 
         except:
             print(traceback.format_exc())
