@@ -11,39 +11,40 @@ from bs4 import BeautifulSoup
 
 class UrlParsingClass():
     def __init__(self):
+        self.PAGE_NUMBER = 1
         pass
 
     # 전체적인 함수 실행해주는 함수
     @asyncio.coroutine
     def mainParser(self, galleryUrl):
-        (htmlSource, listUrl) = yield from self.getHtml(galleryUrl)
-        parseData = yield from self.contentParser(htmlSource, listUrl)
+        listUrl = galleryUrl + '&page=' + str(self.PAGE_NUMBER) + '&exception_mode=recommend'
+        htmlSource = yield from self.getHtml(listUrl)
+        galleryPostUrl = yield from self.getPostUrl(listUrl)
+        parseData = yield from self.contentParser(htmlSource, galleryPostUrl)
         return parseData
-
-    # html 소스 가져오는 함수
-    @asyncio.coroutine
-    def getHtml(self, galleryUrl):
-        pageNumber = str(1)
-        try:
-            bestPost = galleryUrl + '&page=' + pageNumber + '&exception_mode=recommend'
-            getHtmlByte = requests.get(bestPost)
-            getHtmlString = str(getHtmlByte.text)
-            return (getHtmlString, bestPost)
-        except:
-            print(traceback.format_exc())
-            sys.exit()
 
     # 본문 내용 파싱하는 함수
     @asyncio.coroutine
-    def contentParser(self, htmlSource, listUrl):
+    def contentParser(self, htmlSource, galleryPostUrl):
         try:
             soup = BeautifulSoup(htmlSource, 'lxml')
             postNumberList = yield from self.getPostNumber(soup)
             postList = list() # 게시글 주소 리스트
             for postNumber in postNumberList:
-                postList.append(listUrl + '&no=' + postNumber)
+                postList.append(galleryPostUrl + '&no=' + postNumber)
             print(postList)
 
+        except:
+            print(traceback.format_exc())
+            sys.exit()
+
+    # html 소스 가져오는 함수
+    @asyncio.coroutine
+    def getHtml(self, url):
+        try:
+            getHtmlByte = requests.get(url)
+            getHtmlString = str(getHtmlByte.text)
+            return getHtmlString
         except:
             print(traceback.format_exc())
             sys.exit()
@@ -59,3 +60,9 @@ class UrlParsingClass():
             else:
                 continue
         return postNumberList
+
+    # 개념글 게시글 Url 주소 파싱
+    @asyncio.coroutine
+    def getPostUrl(self, galleryUrl):
+        galleryPostUrl = galleryUrl.replace('lists', 'view')
+        return galleryPostUrl
