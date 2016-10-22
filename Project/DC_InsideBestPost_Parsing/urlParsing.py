@@ -55,10 +55,14 @@ class UrlParsingClass():
         htmlSource = yield from self.getHtml(listUrl)
         soup = BeautifulSoup(htmlSource, 'lxml')
         filterData = re.compile('<span class="arrow_2">')
+        filterBehindNumber = re.compile('page=[0-9]+')
+        behindPageNumber = self.PAGE_NUMBER
         for b_next in soup.find_all('a', class_='b_next'):
             if filterData.findall(str(b_next)):
-                behindPageNumber = b_next
-                print(behindPageNumber)
+                behindPageTag = b_next
+                for pageNumber in filterBehindNumber.findall(str(behindPageTag)):
+                    behindPageNumber = pageNumber[5:]
+        return behindPageNumber
 
 
 
