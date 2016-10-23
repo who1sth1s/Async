@@ -20,20 +20,19 @@ class UrlParsingClass():
         listUrl = galleryUrl + '&page=' + str(self.PAGE_NUMBER) + '&exception_mode=recommend'
         behindPageNumber = yield from self.getBehindPageNumber(listUrl)
         htmlSource = yield from self.getHtml(listUrl)
-        galleryPostUrl = yield from self.getPostUrl(listUrl)
-        print(galleryPostUrl)
-        parseData = yield from self.contentParser(htmlSource, galleryPostUrl)
+        parseData = yield from self.contentParser(htmlSource, listUrl)
         return parseData
 
     # 본문 내용 파싱하는 함수
     @asyncio.coroutine
-    def contentParser(self, htmlSource, galleryPostUrl):
+    def contentParser(self, htmlSource, listUrl):
         try:
             soup = BeautifulSoup(htmlSource, 'lxml')
+            galleryPostUrl = yield from self.getPostUrl(listUrl)
             postNumberList = yield from self.getPostNumber(soup)
-            postList = list() # 게시글 주소 리스트
-            for postNumber in postNumberList:
-                postList.append(galleryPostUrl + '&no=' + postNumber)
+            postList = [galleryPostUrl + '&no=' + postNumber for postNumber in postNumberList]
+            for postUrl in postList:
+                postHtml = yield from self.getHtml(postUrl)
 
         except:
             print(traceback.format_exc())
@@ -84,3 +83,8 @@ class UrlParsingClass():
     def getPostUrl(self, galleryUrl):
         galleryPostUrl = galleryUrl.replace('lists', 'view')
         return galleryPostUrl
+
+    # html 소스 json 형식으로 데이터 추출
+    @asyncio.coroutine
+    def transformJson(self, postHtml):
+        print('test')
