@@ -21,6 +21,7 @@ class UrlParsingClass():
         behindPageNumber = yield from self.getBehindPageNumber(listUrl)
         htmlSource = yield from self.getHtml(listUrl)
         galleryPostUrl = yield from self.getPostUrl(listUrl)
+        print(galleryPostUrl)
         parseData = yield from self.contentParser(htmlSource, galleryPostUrl)
         return parseData
 
