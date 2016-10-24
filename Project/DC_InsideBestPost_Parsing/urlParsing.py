@@ -12,6 +12,7 @@ from bs4 import BeautifulSoup
 class UrlParsingClass():
     def __init__(self):
         self.PAGE_NUMBER = 1
+        self.response = dict()
         pass
 
     # 전체적인 함수 실행해주는 함수
@@ -19,9 +20,11 @@ class UrlParsingClass():
     def mainParser(self, galleryUrl):
         listUrl = galleryUrl + '&page=' + str(self.PAGE_NUMBER) + '&exception_mode=recommend'
         behindPageNumber = yield from self.getBehindPageNumber(listUrl)
-        htmlSource = yield from self.getHtml(listUrl)
-        parseData = yield from self.contentParser(htmlSource, listUrl)
-        return parseData
+        for pageNubmer in range(self.PAGE_NUMBER, int(behindPageNumber)):
+            listUrl = galleryUrl + '&page=' + str(pageNubmer) + '&exception_mode=recommend'
+            htmlSource = yield from self.getHtml(listUrl)
+            parseData = yield from self.contentParser(htmlSource, listUrl)
+        return self.response
 
     # 본문 내용 파싱하는 함수
     @asyncio.coroutine
