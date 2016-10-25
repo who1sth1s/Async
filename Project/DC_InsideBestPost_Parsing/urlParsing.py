@@ -91,3 +91,10 @@ class UrlParsingClass():
     @asyncio.coroutine
     def transformJson(self, postHtml):
         print('test')
+
+
+'''
+본문 div = id:dgn_content_de
+제목 div = class:wt_subject -> dd태
+본문내용 div = app_paragraph="Dc_App_Img_0", app_paragraph="Dc_App_text_0"
+'''
