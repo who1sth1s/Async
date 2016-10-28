@@ -36,15 +36,17 @@ class UrlParsingClass():
             postList = [galleryPostUrl + '&no=' + postNumber for postNumber in postNumberList]
             for postUrl in postList:
                 postHtml = yield from self.getHtml(postUrl)
-              
+
         except:
             print(traceback.format_exc())
             sys.exit()
 
     # 본문 HTML 소스 중 필요한 부분만 파싱
     @asyncio.coroutine
-    def getContentHtmlInfo(self, postHtml, soup):
-
+    def getContentHtmlInfo(self, postHtml):
+        soup = BeautifulSoup(postHtml, 'lxml')
+        for contentDiv in soup.find_all('div', id_='dgn_content_de'):
+            print(contentDiv)
 
     # html 소스 가져오는 함수
     @asyncio.coroutine
