@@ -6,6 +6,7 @@ import sys
 import requests
 import datetime
 import re
+import time
 
 from bs4 import BeautifulSoup
 
@@ -18,12 +19,15 @@ class UrlParsingClass():
     # 전체적인 함수 실행해주는 함수
     @asyncio.coroutine
     def mainParser(self, galleryUrl):
+        start = time.time()
         listUrl = galleryUrl + '&page=' + str(self.PAGE_NUMBER) + '&exception_mode=recommend'
         behindPageNumber = yield from self.getBehindPageNumber(listUrl)
         #for pageNubmer in range(self.PAGE_NUMBER, int(behindPageNumber)):
         listUrl = galleryUrl + '&page=' + str(1) + '&exception_mode=recommend'
         htmlSource = yield from self.getHtml(listUrl)
         parseData = yield from self.contentParser(htmlSource, listUrl)
+        end = time.time()
+        print(end-start)
         return self.response
 
     # 본문 내용 파싱하는 함수
@@ -35,7 +39,6 @@ class UrlParsingClass():
             postNumberList = yield from self.getPostNumber(soup)
             postList = [galleryPostUrl + '&no=' + postNumber for postNumber in postNumberList]
             for postUrl in postList:
-                print(postUrl)
                 postHtml = yield from self.getHtml(postUrl)
                 parsingContentData = yield from self.getContentHtmlInfo(postHtml)
 
@@ -47,8 +50,9 @@ class UrlParsingClass():
     @asyncio.coroutine
     def getContentHtmlInfo(self, postHtml):
         soup = BeautifulSoup(postHtml, 'lxml')
-        for contentDiv in soup.find_all('dl', class_='wt_subject'):
-            print(contentDiv)
+        self.commonParserFunc(soup.find_all('dl', class_='wt_subject'))
+        self.commonParserFunc(soup.find_all('div', class_='con_substance'))
+
 
     # html 소스 가져오는 함수
     @asyncio.coroutine
@@ -60,6 +64,11 @@ class UrlParsingClass():
         except:
             print(traceback.format_exc())
             sys.exit()
+
+    # 제목, 본문 파싱 함수
+    def commonParserFunc(self, soupData):
+        for contentData in soupData:
+            print('jj')
 
     # 맨 뒷 페이지 번호 파싱
     @asyncio.coroutine
