@@ -2,7 +2,7 @@
 * Simple example code(reference other blog)
 * Various Project 
 * Python Version : 3.5.x
-* IDE : Mac OS X 10.11.x
+* OS : Mac OS X 10.11.x
 
 ##All of exampleCode in this project reference below blog
 Reference Blog Link: [PythonAsyncInfo_Korean][blog link]
